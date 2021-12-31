@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  # pgdb:
+  #   image: postgres
+  #   environment:
+  #     - POSTGRES_DB=postgres
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #   ports:
+  #     - 5432:5432
+  cockroachdb:
+    image: cockroachdb/cockroach
+    container_name: crdb
+    hostname: crdb
+    command: start-single-node --cluster-name=example-single-node --insecure
+    ports:
+      - "26257:26257"
+      - "8080:8080"
