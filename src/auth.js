@@ -25,7 +25,12 @@ module.exports = async (server) => {
             headers: { 
             "Client-ID": process.env.TWITCH_CLIENT_ID,
             },
-            scope: ["user:read:email"],
+            scope: [
+                "chat:edit",
+                "chat:read",
+                "channel:read:redemptions",
+                "user:read:email"
+            ],
             scopeSeparator: " ",
             profile: async function (credentials, params, get) {
             const profileResponse = await get(
@@ -64,7 +69,7 @@ module.exports = async (server) => {
             } = request.auth.credentials.profile;
             const { token, refreshToken } = request.auth.credentials;
             try {
-                Database('twitch_users').insert({
+                await Database('twitch_users').insert({
                     id,
                     login,
                     display_name,

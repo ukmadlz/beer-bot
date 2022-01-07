@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
+    "dev:bot": "nodemon src/bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,8 +23,10 @@
     "@hapi/cookie": "^11.0.2",
     "@hapi/hapi": "^20.2.1",
     "cockroachdb": "^1.0.3",
+    "comfy.js": "^1.1.12",
     "dotenv": "^10.0.0",
     "knex": "^0.95.15",
+    "node-fetch": "^2.6.6",
     "pg": "^8.7.1"
   }
 }
