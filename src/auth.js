@@ -28,7 +28,7 @@ module.exports = async (server) => {
             scope: [
                 "chat:edit",
                 "chat:read",
-                "channel:read:redemptions",
+                "channel:read:subscriptions",
                 "user:read:email"
             ],
             scopeSeparator: " ",
@@ -69,14 +69,30 @@ module.exports = async (server) => {
             } = request.auth.credentials.profile;
             const { token, refreshToken } = request.auth.credentials;
             try {
-                await Database('twitch_users').insert({
+                const idRow = await Database('twitch_users').where({
                     id,
-                    login,
-                    display_name,
-                    profile_image_url,
-                    token,
-                    refreshToken
-                })
+                }).select('id');
+                if(idRow.length) {
+                    await Database('twitch_users').where({
+                        id,
+                    }).update({
+                        token,
+                        refreshToken,
+                        login,
+                        display_name,
+                        profile_image_url,
+                        updated_at: new Date(),
+                    });
+                } else {
+                    await Database('twitch_users').insert({
+                        id,
+                        login,
+                        display_name,
+                        profile_image_url,
+                        token,
+                        refreshToken
+                    })
+                };
                 request.cookieAuth.set(request.auth.credentials.profile);
             } catch (error) {
                 console.log(error);

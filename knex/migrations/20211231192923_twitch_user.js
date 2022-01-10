@@ -9,6 +9,7 @@ exports.up = (knex) => {
         table.string('profile_image_url', 255).notNullable();
         table.string('token', 255).notNullable();
         table.string('refreshToken', 255).notNullable();
+        table.string('untappd_user', 255);
         table.timestamps(null, true);
     })
 };

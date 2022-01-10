@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
+    "dev:api": "nodemon src/api.js",
     "dev:bot": "nodemon src/bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
