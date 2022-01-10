@@ -8,17 +8,17 @@ DotEnv.config();
 const baseUrl = 'https://api.untappd.com/v4/';
 
 const untapped =  {
-    currentBeerStatement: async () => {
-        const untappedResult = await untapped.untappdFetch('GET', 'user/checkins/elsmore');
+    currentBeerStatement: async (user) => {
+        const untappedResult = await untapped.untappdFetch('GET', `user/checkins/${user}`);
         const { beer_name, beer_style } = untappedResult.response.checkins.items[0].beer;
         const { brewery_name, country_name } = untappedResult.response.checkins.items[0].brewery;
-        return `My current beer was a ${beer_name} it's a ${beer_style} from ${brewery_name} in ${country_name}`
+        return `${user}'s current beer was a ${beer_name} it's a ${beer_style} from ${brewery_name} in ${country_name}`
     },
-    lastBeerStatement: async () => {
-        const untappedResult = await untapped.untappdFetch('GET', 'user/checkins/elsmore');
+    lastBeerStatement: async (user) => {
+        const untappedResult = await untapped.untappdFetch('GET', `user/checkins/${user}`);
         const { beer_name, beer_style } = untappedResult.response.checkins.items[1].beer;
         const { brewery_name, country_name } = untappedResult.response.checkins.items[1].brewery;
-        return `My last beer was a ${beer_name} it's a ${beer_style} from ${brewery_name} in ${country_name}`
+        return `${user}'s last beer was a ${beer_name} it's a ${beer_style} from ${brewery_name} in ${country_name}`
     },
     untappdFetch: async (method, path, body) =>{
         try {
