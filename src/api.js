@@ -2,7 +2,6 @@
 
 const DotEnv = require('dotenv');
 const Hapi = require('@hapi/hapi');
-const Knex = require('knex');
 
 DotEnv.config();
 
