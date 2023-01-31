@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import Script from 'next/script';
-import ComfyJS from 'comfy.js'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 export default function BrowserSourceForUser() {
@@ -26,7 +25,7 @@ export default function BrowserSourceForUser() {
       <Script
         id="ComfyJS"
         src="https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js"
-        onReady={() => {
+        onReady={()=> {
           const dataHolder = document.getElementById('data-holder');
           const userId = String(dataHolder?.dataset?.userId);
           const userName = String(dataHolder?.dataset?.userName);
@@ -35,16 +34,15 @@ export default function BrowserSourceForUser() {
             'beer': `/api/beer/${userId}/current`,
             'beercurrent': `/api/beer/${userId}/current`,
             'beerlast': `/api/beer/${userId}/last`
-          }
-          ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
-              if(ALLOWED_COMMANDS[command]) {
-                console.log(ALLOWED_COMMANDS[command])
-                  fetch(ALLOWED_COMMANDS[command])
-                  .then((response) => response.json())
-                  .then((data) => {
-                      ComfyJS.Say(`${userName}'s beer was a ${data.beer.beer_name} it's a ${data.beer.beer_style} from ${data.brewery.brewery_name} in ${data.brewery.country_name}`, userName);
-                  });
-              }
+          };
+          ComfyJS.onCommand = ( user, command ) => {
+            if(ALLOWED_COMMANDS[command]) {
+              fetch(ALLOWED_COMMANDS[command])
+              .then((response) => response.json())
+              .then((data) => {
+                  ComfyJS.Say(`${userName}'s beer was a ${data.beer.beer_name} it's a ${data.beer.beer_style} from ${data.brewery.brewery_name} in ${data.brewery.country_name}`, userName);
+              });
+            }
           }
           ComfyJS.Init( userName, authToken );
         }}
